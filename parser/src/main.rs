@@ -3,6 +3,8 @@ use std::collections::HashMap;
 use std::fs::{self, File};
 use std::io::Write;
 
+const PGM_SIZE: u64 = 16;
+
 #[derive(Debug, Clone)]
 enum OperationType {
     NoOp,
@@ -114,9 +116,9 @@ fn main() {
 
     let code = fs::read_to_string(file_path).expect("Failed to read the file");
 
-    let operations = parse_rust_code(&code);
+    let mut operations = parse_rust_code(&code);
 
-    let parsed_program: Vec<Vec<i64>> = operations
+    let mut parsed_program: Vec<Vec<i64>> = operations
         .iter()
         .map(|op| match op.operation_type {
             OperationType::NoOp => vec![0, 0, 0, 0],
@@ -125,6 +127,11 @@ fn main() {
             OperationType::Divide => vec![3, op.lhs_variable, op.var_or_val_1, op.var_or_val_2],
         })
         .collect();
+
+    // 더미 값 [0, 0, 0, 0]을 추가하여 [16][4] 크기로 맞추기
+    while parsed_program.len() < 16 {
+        parsed_program.push(vec![0, 0, 0, 0]);
+    }
 
     let output = json!({
         "syntax_tree": parsed_program,

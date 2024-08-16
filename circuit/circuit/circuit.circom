@@ -2,7 +2,7 @@ pragma circom 2.1.8;
 
 template DivideCheck(n) {
     signal input syntax_tree[n][4];  // n x 4 크기의 syntax_tree 입력
-    signal output safe;              // 안전 여부 출력 (1: safe, 0: unsafe)
+    signal output safe;              // public signal로 설정하여 증명에서 확인 가능하게 함
 
     signal check_division[n];        // 현재 연산이 division(3)인지 확인
     signal check_t_value[n];         // 네 번째 값이 T인지 확인 (1인지 확인)
@@ -28,11 +28,8 @@ template DivideCheck(n) {
     }
 
     // 최종 안전 여부를 final_is_safe로 전달
-    signal final_is_safe;
-    final_is_safe <== intermediate_is_safe[n];
-
-    // 결과를 is_safe에 할당
-    safe <== final_is_safe;
+    safe <== intermediate_is_safe[n];
 }
 
 component main = DivideCheck(16);
+

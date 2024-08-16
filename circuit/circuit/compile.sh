@@ -1,1 +1,1 @@
-circom analyzer.circom --r1cs --wasm --sym --c
+circom circuit.circom --r1cs --wasm
