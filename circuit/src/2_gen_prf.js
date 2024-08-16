@@ -3,7 +3,7 @@ const fs = require("fs");
 
 async function proof_generator() {
   const { proof, publicSignals } = await snarkjs.groth16.fullProve(
-    "./circuit_compiled/circuit.wasm",
+    "./circuit/analyzer.wasm",
     "./keys/circuit_final.zkey"
   );
 

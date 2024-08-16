@@ -105,7 +105,7 @@ fn get_var_or_val(token: &str, var_env: &HashMap<String, i64>) -> i64 {
     if let Some(&val) = var_env.get(token) {
         val
     } else {
-        parse_value(token)
+        parse_value(token) // 변수로 인식되지 않으면 상수로 처리
     }
 }
 
@@ -119,10 +119,10 @@ fn main() {
     let parsed_program: Vec<Vec<i64>> = operations
         .iter()
         .map(|op| match op.operation_type {
+            OperationType::NoOp => vec![0, 0, 0, 0],
             OperationType::Assign => vec![1, op.lhs_variable, op.var_or_val_1, 0],
             OperationType::Summation => vec![2, op.lhs_variable, op.var_or_val_1, op.var_or_val_2],
             OperationType::Divide => vec![3, op.lhs_variable, op.var_or_val_1, op.var_or_val_2],
-            OperationType::NoOp => vec![0, 0, 0, 0],
         })
         .collect();
 

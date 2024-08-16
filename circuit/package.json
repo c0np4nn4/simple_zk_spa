@@ -4,9 +4,9 @@
   "description": "hell yeah",
   "main": "index.js",
   "scripts": {
-    "generator": "node ./src/1_gen_key.js",
-    "prover": "node ./src/2_gen_prf.js",
-    "verifier": "node ./src/3_vrf_prf.js"
+    "gen_key": "node ./src/1_gen_key.js",
+    "gen_prf": "node ./src/2_gen_prf.js",
+    "vrf_prf": "node ./src/3_vrf_prf.js"
   },
   "keywords": [
     "zk-snark",
