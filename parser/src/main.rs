@@ -19,7 +19,7 @@ struct ParsedOperation {
     var_or_val_2: i64,
 }
 
-fn parse_rust_code(code: &str) -> (HashMap<String, i64>, Vec<ParsedOperation>) {
+fn parse_rust_code(code: &str) -> Vec<ParsedOperation> {
     let mut var_env: HashMap<String, i64> = HashMap::new();
     let mut operations: Vec<ParsedOperation> = vec![];
     let mut var_index = 1;
@@ -94,7 +94,7 @@ fn parse_rust_code(code: &str) -> (HashMap<String, i64>, Vec<ParsedOperation>) {
         }
     }
 
-    (var_env, operations)
+    operations
 }
 
 fn parse_value(value: &str) -> i64 {
@@ -114,7 +114,7 @@ fn main() {
 
     let code = fs::read_to_string(file_path).expect("Failed to read the file");
 
-    let (var_env, operations) = parse_rust_code(&code);
+    let operations = parse_rust_code(&code);
 
     let parsed_program: Vec<Vec<i64>> = operations
         .iter()
@@ -127,7 +127,6 @@ fn main() {
         .collect();
 
     let output = json!({
-        "var_env": var_env,
         "syntax_tree": parsed_program,
     });
 
