@@ -1,12 +1,21 @@
 {
-  "name": "circuit",
-  "version": "1.0.0",
+  "name": "simple-zk-spa",
+  "version": "2.0.0",
+  "description": "hell yeah",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "generator": "node ./src/1_gen_key.js",
+    "prover": "node ./src/2_gen_prf.js",
+    "verifier": "node ./src/3_vrf_prf.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "zk-snark",
+    "snark",
+    "example",
+    "demo"
+  ],
   "license": "ISC",
-  "description": ""
+  "dependencies": {
+    "snarkjs": "^0.4.24"
+  }
 }
