@@ -1,1 +1,1 @@
-circom circuit.circom --r1cs --wasm
+circom main.circom --r1cs --wasm --sym -l components/
