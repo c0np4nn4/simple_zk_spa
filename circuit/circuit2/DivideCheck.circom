@@ -18,7 +18,7 @@ template additional() // 덧셈 연산 (2)이면 1 나머지는 0
     adout <== adinter;
 }
 
-template mutiplication() // 곱셈 연산 (3)이면 1 나머지는 0
+template mutiplication() // 나눗셈 연산 (3)이면 1 나머지는 0
 {
     signal input mpin;
     signal mpinter;
@@ -40,7 +40,6 @@ template DivideCheck(n)
 {
     signal input syntax_tree[n][4]; // 입력 값
     signal output safe; // 출력 값
-    signal output dk[16];
     signal safe_checker[17]; // i번째 줄 코드까지의 검사 결과
     var variable[17]; // 변수 값 저장 / 코드 16줄을 받으니 변수는 최대 16개 / 쓰레기 값들을 0번째 index로 보내기 위해 17로 선언 // 양수는 1 음수는 3 T는 7 // 계산의 편리성을 위해 이렇게 둔다
     for (var i = 0; i < 16; i++)
@@ -66,9 +65,9 @@ template DivideCheck(n)
         rhs=rhs==4?(syntax_tree[i][3]>0?1:4):rhs; // 우항 원소, 양수라면 1 대입 // 아니라면 일단 4
         rhs=rhs==4?(syntax_tree[i][3]<0?3:7):rhs; // 우항 원소, 음수라면 3 대입 // 아니라면 7
         variable[which_variable] = variable[which_variable]+ad[i].adout*((lhs+rhs)==2?1:(lhs+rhs==6?3:7)); // 덧셈 연산 양수+양수는 1 // 음수+음수는 3 // 나머지는 T(7)
-        variable[which_variable] = variable[which_variable]+mp[i].mpout*((lhs+rhs)==4?3:(lhs+rhs<7?1:7)); // 곱셈 연산 양수*양수, 음수*음수는 1 // 양수*음수는 3 // 나머지는 T(7)
-        var middle_checker = mp[i].mpout==1?(rhs==7?0:1):1;
-        safe_checker[i+1] <-- safe_checker[i]*middle_checker;
+        variable[which_variable] = variable[which_variable]+mp[i].mpout*((lhs+rhs)==4?3:(lhs+rhs<7?1:7)); // 나눗셈 연산 양수/양수, 음수/음수는 1 // 양수/음수는 3 // 나머지는 T(7)
+        var middle_checker = mp[i].mpout==1?(rhs==7?0:1):1; // T로 나누면 안전하지 않다 (0) // 아니라면 안전하다 (1)
+        safe_checker[i+1] <-- safe_checker[i]*middle_checker; // i번째까지 분석한것 + i+1번째 코드가 전부 안전해야 안전하다고 넣는다.
     }
     safe <== safe_checker[16]; // 마지막 줄까지 분석한 결과 대입
     safe === 1; // safe==1 즉, 안전해야한다는 제약 // 안전하지 않으면 증명이 만들어지지 못한다.
