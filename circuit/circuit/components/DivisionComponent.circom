@@ -10,10 +10,10 @@ template DivisionComponent() {
     signal output division_result;
 
     component inv_calculator = SafeInverse();
-    inv_calculator.x <== rhs_value;
+    inv_calculator.in <== rhs_value;
 
     signal tmp;
-    tmp <== lhs_value * inv_calculator.inv_x;
+    tmp <== lhs_value * inv_calculator.out;
 
     signal adjusted_division;
     adjusted_division <== is_lhs * tmp;
